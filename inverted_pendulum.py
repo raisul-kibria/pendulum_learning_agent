@@ -28,7 +28,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import os
 
+OUTPUT_DIR = "./output_group4"
+DEBUG = True
+PARAMS = {
+    "pole_mass": 1.5,
+    "cart_mass": 7,
+    "pole_lengh": 0.5,
+    "delta_t": 0.1
+}
+try:
+    os.makedirs(OUTPUT_DIR)
+except:
+    pass
 
 class InvertedPendulum:
     def __init__(self, pole_mass=2.0, cart_mass=8.0, pole_lenght=0.5, delta_t=0.1):

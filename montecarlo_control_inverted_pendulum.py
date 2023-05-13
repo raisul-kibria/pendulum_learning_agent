@@ -27,7 +27,7 @@
 #I will estimate the policy and the state-action matrix of each state.
 
 import numpy as np
-from inverted_pendulum import InvertedPendulum
+from inverted_pendulum import InvertedPendulum, OUTPUT_DIR, PARAMS, DEBUG
 import matplotlib.pyplot as plt
 
 def print_policy(policy_matrix):
@@ -134,7 +134,11 @@ def plot_curve(data_list, filepath="./my_plot.png",
 
 def main():
 
-    env = InvertedPendulum(pole_mass=2.0, cart_mass=8.0, pole_lenght=0.5, delta_t=0.1)
+    env = InvertedPendulum(
+        pole_mass=PARAMS["pole_mass"],
+        cart_mass=PARAMS["cart_mass"],
+        pole_lenght=PARAMS["pole_lenght"],
+        delta_t=PARAMS["delta_t"])
 
     # Define the state arrays for velocity and position
     tot_action = 3  # Three possible actions
@@ -144,8 +148,9 @@ def main():
 
     #Random policy
     policy_matrix = np.random.randint(low=0, high=tot_action, size=(tot_bins,tot_bins))
-    print("Policy Matrix:")
-    print_policy(policy_matrix)
+    if DEBUG:
+        print("Policy Matrix:")
+        print_policy(policy_matrix)
 
     state_action_matrix = np.zeros((tot_action, tot_bins*tot_bins))
     #init with 1.0e-10 to avoid division by zero
@@ -157,6 +162,9 @@ def main():
     epsilon_decay_step = 10000
     print_episode = 500  # print every...
     movie_episode = 20000  # movie saved every...
+    if not DEBUG:
+        print_episode = tot_episode
+        movie_episode = tot_episode / 4
     reward_list = list()
     step_list = list()
 
@@ -229,19 +237,19 @@ def main():
             print_policy(policy_matrix)
         if(episode % movie_episode == 0):
             print("Saving the reward plot in: ./reward_monte_carlo.png")
-            plot_curve(reward_list, filepath="./reward_monte_carlo.png", 
+            plot_curve(reward_list, filepath=f"{OUTPUT_DIR}/reward_monte_carlo.png", 
                        x_label="Episode", y_label="Reward",
                        x_range=(0, len(reward_list)), y_range=(-0.1,100),
                        color="red", kernel_size=500, 
                        alpha=0.4, grid=True)
-            print("Saving the step plot in: ./step_monte_carlo.png")
-            plot_curve(step_list, filepath="./step_monte_carlo.png", 
+            print(f"Saving the step plot in: {OUTPUT_DIR}/step_monte_carlo.png")
+            plot_curve(step_list, filepath=f"{OUTPUT_DIR}/step_monte_carlo.png", 
                        x_label="Episode", y_label="Steps", 
                        x_range=(0, len(step_list)), y_range=(-0.1,100),
                        color="blue", kernel_size=500, 
                        alpha=0.4, grid=True)
-            print("Saving the gif in: ./inverted_pendulum_monte_carlo.gif")
-            env.render(file_path='./inverted_pendulum_monte_carlo.gif', mode='gif')
+            print(f"Saving the gif in: {OUTPUT_DIR}/inverted_pendulum_monte_carlo.gif")
+            env.render(file_path=f'{OUTPUT_DIR}/inverted_pendulum_monte_carlo.gif', mode='gif')
             print("Complete!")
 
     print("Policy matrix after " + str(tot_episode) + " episodes:")
