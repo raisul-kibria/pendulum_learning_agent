@@ -236,7 +236,7 @@ def main():
             print("Policy matrix: ") 
             print_policy(policy_matrix)
         if(episode % movie_episode == 0):
-            print("Saving the reward plot in: ./reward_monte_carlo.png")
+            print(f"Saving the reward plot in: {OUTPUT_DIR}/reward_monte_carlo.png")
             plot_curve(reward_list, filepath=f"{OUTPUT_DIR}/reward_monte_carlo.png", 
                        x_label="Episode", y_label="Reward",
                        x_range=(0, len(reward_list)), y_range=(-0.1,100),
