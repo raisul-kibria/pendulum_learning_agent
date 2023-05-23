@@ -29,6 +29,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
+DEBUG = False # whether to print more often;
+     # turned off for sake of faster computation
+
+# all default parameters assigned
+PARAMS = {
+    "pole_mass": 1.5,
+    "cart_mass": 7,
+    "pole_lenght": 0.5,
+    "delta_t": 0.1,
+    "alpha": 0.001,
+    "lambda": 0.5,
+    "tot_episode": 500000,
+    "epsilon_strategy": "lin_decay", # "decay", "fixed"
+    "epsilon": 0.05 # Only for "fixed"
+}
 
 class InvertedPendulum:
     def __init__(self, pole_mass=2.0, cart_mass=8.0, pole_lenght=0.5, delta_t=0.1):

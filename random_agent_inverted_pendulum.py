@@ -22,10 +22,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from inverted_pendulum import InvertedPendulum
+import os
+from utils.inverted_pendulum import InvertedPendulum, PARAMS
 import random
 
-my_pole = InvertedPendulum(pole_mass=2.0, cart_mass=8.0, pole_lenght=0.5, delta_t=0.1)
+OUTPUT_DIR = './outputs/group4_random'
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+my_pole = InvertedPendulum(
+    pole_mass=PARAMS["pole_mass"],
+    cart_mass=PARAMS["cart_mass"],
+    pole_lenght=PARAMS["pole_lenght"],
+    delta_t=PARAMS["delta_t"])
+
 cumulated_reward = 0
 print("Starting random agent...")
 for step in range(100):
@@ -41,6 +50,6 @@ for step in range(100):
     if done: break
 print("Finished after: " + str(step+1) + " steps")
 print("Cumulated Reward: " + str(cumulated_reward))
-print("Saving the gif in: ./inverted_pendulum_random_agent.gif")
-my_pole.render(file_path='./inverted_pendulum_random_agent.gif', mode='gif')
+print(f"Saving the gif in: {OUTPUT_DIR}/inverted_pendulum_random_agent.gif")
+my_pole.render(file_path=f'{OUTPUT_DIR}/inverted_pendulum_random_agent.gif', mode='gif')
 print("Complete!")
