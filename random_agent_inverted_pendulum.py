@@ -22,8 +22,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from inverted_pendulum import InvertedPendulum, OUTPUT_DIR, PARAMS
+import os
+from utils.inverted_pendulum import InvertedPendulum, PARAMS
 import random
+
+OUTPUT_DIR = './outputs/group4_random'
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 my_pole = InvertedPendulum(
     pole_mass=PARAMS["pole_mass"],
