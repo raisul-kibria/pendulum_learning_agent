@@ -70,10 +70,9 @@ def update_state_action(state_action_matrix, trace_matrix, observation, new_obse
     qtp1 = state_action_matrix[int(new_action), coltp1]
     delta = reward + gamma * qtp1 - qt
 
-    # updating and clearing traces
-    temp = trace_matrix[int(action), col]
+    # replacing and clearing traces
     trace_matrix[:, col] = 0
-    trace_matrix[int(action), col] = temp + 1
+    trace_matrix[int(action), col] = 1
 
     # applying SARSA update rule
     state_action_matrix += alpha * delta * trace_matrix
